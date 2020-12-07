@@ -1,3 +1,2 @@
-# labIMK
-
-Ini file Project Lab IMK 1
+# simope
+Sistem Monitoring Pekerjaan dan Penilaian

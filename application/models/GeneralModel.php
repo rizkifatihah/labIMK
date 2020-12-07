@@ -1,6 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class GeneralModel extends CI_Model
 {
+  function __construct()
+  {
+    parent::__construct();
+  }
 
   function get_general($table)
   {
@@ -17,11 +21,6 @@ class GeneralModel extends CI_Model
   function get_general_order_by($table,$by,$order)
   {
     return $query = $this->db->query("SELECT * FROM $table ORDER BY $by $order")->result();
-  }
-
-  function get_by_id_general_order_by($table,$id,$val,$by,$order)
-  {
-    return $query = $this->db->query("SELECT * FROM $table WHERE $id = $val ORDER BY $by $order")->result();
   }
 
   function truncate_general($table)
@@ -43,6 +42,12 @@ class GeneralModel extends CI_Model
   {
     $query = $this->db->where($id, $val)->get($table);
     return $query->result();
+  }
+
+  function get_by_id_general_row($table, $id, $val)
+  {
+    $query = $this->db->where($id, $val)->get($table);
+    return $query->row();
   }
 
   function create_general($table, $data)
@@ -72,18 +77,14 @@ class GeneralModel extends CI_Model
     return $this->db->query("SELECT * FROM $table ORDER BY $order_by $order LIMIT $limit")->result();
   }
 
-  function limit_general_category_order_by($table,$category,$val_category, $order_by, $order ,$limit)
+  function requestTask($persetujuan)
   {
-    return $this->db->query("SELECT * FROM $table WHERE $category = '$val_category' ORDER BY $order_by $order LIMIT $limit")->result();
+    return $this->db->query("SELECT * FROM tb_tasklist t ,tb_pengguna p WHERE t.created_by = p.id_pengguna AND t.status_persetujuan ='$persetujuan'")->result();
   }
 
-  function limit_by_id_general_order_by($table, $id, $val, $order_by, $order ,$limit)
+  function requestTaskId($persetujuan,$id_pengguna)
   {
-    return $this->db->query("SELECT * FROM $table WHERE $id = '$val' ORDER BY $order_by $order LIMIT $limit")->result();
+    return $this->db->query("SELECT * FROM tb_tasklist t ,tb_pengguna p WHERE t.created_by = p.id_pengguna AND t.status_persetujuan ='$persetujuan' AND created_by ='$id_pengguna'")->result();
   }
 
-  function limit_by_id_general_category_order_by($table, $id, $val,$category,$val_category, $order_by, $order ,$limit)
-  {
-    return $this->db->query("SELECT * FROM $table WHERE $id = '$val' AND $category = '$val_category' ORDER BY $order_by $order LIMIT $limit")->result();
-  }
 }
